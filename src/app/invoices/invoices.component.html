@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col">
+      <h3 class="mt-5">Invoices</h3>
+      <table class="invoiceTable table mt-5 text-center">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Invoice Number</th>
+          <th scope="col">Date Scanned</th>
+          <th scope="col">Due Date</th>
+          <th scope="col" colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>1234567890</td>
+          <td>Mon, 27 March 2023</td>
+          <td>Thu, 20 April 2023</td>
+          <td>
+            <a class="btn btn-success btn-sm">Review</a>
+          </td>
+          <td>
+            <a class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>1234567891</td>
+          <td>Mon, 27 March 2023</td>
+          <td>Thu, 20 April 2023</td>
+          <td>
+            <a class="btn btn-success btn-sm">Review</a>
+          </td>
+          <td>
+            <a class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>1234567892</td>
+          <td>Mon, 27 March 2023</td>
+          <td>Thu, 20 April 2023</td>
+          <td>
+            <a class="btn btn-success btn-sm">Review</a>
+          </td>
+          <td>
+            <a class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col text-center mt-3">
+      <pagination-controls (pageChange)="p = $event"
+                           previousLabel="Back"
+                           nextLabel="Next">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <form #f="ngForm"
+                (ngSubmit)="f.form.valid && onSubmit()"
+                enctype="multipart/form-data">
+            <div class="row form-group mt-5">
+              <label for="formInvoice" class="col form-label">Upload an invoice</label>
+              <input class="form-control"
+                     type="file"
+                     id="formInvoice"
+                     name="invoice"
+                     [(ngModel)]="form.invoice"
+                     #invoice="ngModel"
+                     (change)="onFileSelected($event)">
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Upload</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

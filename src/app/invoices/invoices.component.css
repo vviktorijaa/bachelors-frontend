@@ -1,0 +1,17 @@
+@media screen and (max-width: 1000px) {
+  .invoiceTable {
+    float: right;
+    width: 50%;
+  }
+
+  h3 {
+    margin-left: 165px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .invoiceTable {
+    float: right;
+    width: 30%;
+  }
+}
