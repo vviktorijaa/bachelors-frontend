@@ -7,45 +7,23 @@
       <table class="invoiceTable table mt-5 text-center">
         <thead class="thead-dark">
         <tr>
-          <th scope="col">No.</th>
           <th scope="col">Invoice Number</th>
           <th scope="col">Date Scanned</th>
           <th scope="col">Due Date</th>
+          <th scope="col">Total Amount</th>
           <th scope="col" colspan="2">Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>1234567890</td>
-          <td>Mon, 27 March 2023</td>
-          <td>Thu, 20 April 2023</td>
+        <tr *ngFor="let invoice of invoices | paginate: {itemsPerPage: 5,
+                                                                  currentPage: p,
+                                                                  totalItems: invoices?.length}">
+          <td>{{invoice.invoiceNumber}}</td>
+          <td>{{invoice.scanTimestamp | date:'dd-MM-yyyy'}}</td>
+          <td>{{invoice.dueDate | date:'dd-MM-yyyy'}}</td>
+          <td>{{invoice.totalAmount | number:'1.2-2' }}</td>
           <td>
-            <a class="btn btn-success btn-sm">Review</a>
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm">Delete</a>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>1234567891</td>
-          <td>Mon, 27 March 2023</td>
-          <td>Thu, 20 April 2023</td>
-          <td>
-            <a class="btn btn-success btn-sm">Review</a>
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm">Delete</a>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>1234567892</td>
-          <td>Mon, 27 March 2023</td>
-          <td>Thu, 20 April 2023</td>
-          <td>
-            <a class="btn btn-success btn-sm">Review</a>
+            <a class="btn btn-primary btn-sm">Download annotated invoice</a>
           </td>
           <td>
             <a class="btn btn-danger btn-sm">Delete</a>
