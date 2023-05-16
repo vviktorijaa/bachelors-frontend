@@ -10,6 +10,8 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {ScanComponent} from './scan/scan.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {HttpClientModule} from "@angular/common/http";
     NavbarComponent,
     InvoicesComponent,
     DashboardComponent,
-    ScanComponent
+    ScanComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

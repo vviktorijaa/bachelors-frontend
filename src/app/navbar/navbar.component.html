@@ -21,31 +21,31 @@
 
       <!--   Menu items   -->
       <div class="nav flex-column nav-pills text-white" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a routerLink="/dashboard" class="nav-link active list-item" id="v-pills-dashboard-tab" data-toggle="pill" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+        <a routerLink="/dashboard" [class.active]="isActive('/dashboard')" class="nav-link list-item" id="v-pills-dashboard-tab" data-toggle="pill" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
           <h2 class="bi bi-columns"></h2>
           <div class="menuItem">
             <h5>Dashboard</h5>
           </div>
         </a>
-        <a routerLink="/scan" class="nav-link list-item" id="v-pills-scan-tab" data-toggle="pill" role="tab" aria-controls="v-pills-scan" aria-selected="false">
+        <a routerLink="/scan" [class.active]="isActive('/scan')" class="nav-link list-item" id="v-pills-scan-tab" data-toggle="pill" role="tab" aria-controls="v-pills-scan" aria-selected="false">
           <h2 class="bi bi-upc-scan"></h2>
           <div class="menuItem">
             <h5>Scan</h5>
           </div>
         </a>
-        <a routerLink="/invoices" class="nav-link list-item" id="v-pills-invoices-tab" data-toggle="pill" role="tab" aria-controls="v-pills-invoices" aria-selected="false">
+        <a routerLink="/invoices" [class.active]="isActive('/invoices')" class="nav-link list-item" id="v-pills-invoices-tab" data-toggle="pill" role="tab" aria-controls="v-pills-invoices" aria-selected="false">
           <h2 class="bi bi-file-earmark-text"></h2>
           <div class="menuItem">
             <h5>Invoices</h5>
           </div>
         </a>
-        <a routerLink="/users" class="nav-link list-item" id="v-pills-users-tab" data-toggle="pill" role="tab" aria-controls="v-pills-users" aria-selected="false">
+        <a routerLink="/users" [class.active]="isActive('/users')" class="nav-link list-item" id="v-pills-users-tab" data-toggle="pill" role="tab" aria-controls="v-pills-users" aria-selected="false">
           <h2 class="bi bi-people"></h2>
           <div class="menuItem">
             <h5>Users</h5>
           </div>
         </a>
-        <a routerLink="/settings" class="nav-link list-item" id="v-pills-settings-tab" data-toggle="pill" role="tab" aria-controls="v-pills-settings" aria-selected="true">
+        <a routerLink="/login" [class.active]="isActive('/login')" class="nav-link list-item" id="v-pills-settings-tab" data-toggle="pill" role="tab" aria-controls="v-pills-settings" aria-selected="true">
           <h2 class="bi bi-box-arrow-left"></h2>
           <div class="menuItem">
             <h5>Log out</h5>

@@ -1,0 +1,12 @@
+.col-lg-6.d-flex {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.custom-form {
+  width: 60%;
+  margin: 0 auto;
+}

@@ -23,8 +23,16 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mt-1">
         <div class="col">
+          <p #processingImage style="visibility: hidden">Processing image...</p>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col image-container">
+          <canvas #canvasElement style="height:350px; width:300px"></canvas>
+          <a *ngIf="this.jsonResponse.image != undefined" [href]="canvasDataURL" download="image.png">Download Image</a>
         </div>
       </div>
     </div>
