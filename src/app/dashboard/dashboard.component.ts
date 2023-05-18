@@ -6,4 +6,10 @@ import {Component} from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+
+  activeTab: string = 'home';
+
+  setActiveTab(tabId: string) {
+    this.activeTab = tabId;
+  }
 }
