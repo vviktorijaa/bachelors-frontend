@@ -3,23 +3,32 @@
   <div class="row">
     <div class="col-3"></div>
     <div class="col">
+
       <div class="row">
         <div class="col">
-          <form #f="ngForm"
-                (ngSubmit)="f.form.valid && onSubmit()"
-                enctype="multipart/form-data">
-            <div class="row form-group mt-5">
-              <label for="formInvoice" class="col form-label">Upload an invoice</label>
-              <input class="form-control"
-                     type="file"
-                     id="formInvoice"
-                     name="invoice"
-                     [(ngModel)]="form.invoice"
-                     #invoice="ngModel"
-                     (change)="onFileSelected($event)">
+
+          <div class="row mt-5">
+            <div class="col-5 text-center" style="margin-top: 8px;">
+              <button class="btn btn-primary mt-4" (click)="checkPermissions()">Scan Invoice</button>
             </div>
-            <button type="submit" class="btn btn-primary mt-4">Upload</button>
-          </form>
+
+            <div class="col-6">
+              <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" enctype="multipart/form-data">
+                <div class="row form-group">
+                  <label for="formInvoice" class="col form-label">Upload an invoice</label>
+                  <input class="form-control"
+                         type="file"
+                         id="formInvoice"
+                         name="invoice"
+                         [(ngModel)]="form.invoice"
+                         #invoice="ngModel"
+                         (change)="onFileSelected($event)">
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Upload</button>
+              </form>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -31,8 +40,17 @@
 
       <div class="row text-center">
         <div class="col image-container">
-          <canvas #canvasElement style="height:350px; width:300px"></canvas>
-          <a *ngIf="this.jsonResponse.image != undefined" [href]="canvasDataURL" download="image.png">Download Image</a>
+          <div *ngIf="this.status == undefined; then thenHeader else elseHeader"></div>
+          <ng-template #thenHeader>
+            <canvas #canvasElement style="height:350px; width:300px"></canvas>
+            <a *ngIf="this.jsonResponse.image != undefined" [href]="canvasDataURL" download="image.png">Download Image</a>
+          </ng-template>
+          <ng-template #elseHeader>
+            <div *ngIf="stream" style="position: relative;">
+              <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1"></webcam>
+              <button class="btn btn-primary mt-3" (click)="captureImage()">{{btnLabel}}</button>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

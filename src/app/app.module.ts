@@ -10,9 +10,10 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {ScanComponent} from './scan/scan.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { UsersComponent } from './users/users.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {UsersComponent} from './users/users.component';
+import {WebcamModule} from "ngx-webcam";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { UsersComponent } from './users/users.component';
     AppRoutingModule,
     NgxPaginationModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    WebcamModule
   ],
   providers: [],
   bootstrap: [AppComponent]

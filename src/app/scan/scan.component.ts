@@ -1,5 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {WebcamImage} from "ngx-webcam";
+import {Observable, Subject} from "rxjs";
 
 const SCAN_INVOICE_ENDPOINT = "http://localhost:8080/scan/invoice";
 
@@ -25,6 +27,60 @@ export class ScanComponent {
     regions: null
   }
 
+  stream: any = null;
+  status: any = null;
+  trigger: Subject<void> = new Subject();
+  previewImage: File | null = null;
+  btnLabel: string = 'Capture image';
+
+  get $trigger(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+  snapshot(event: WebcamImage) {
+    console.log(event);
+    const imageDataUrl = event.imageAsDataUrl;
+    const byteString = atob(imageDataUrl.split(',')[1]);
+    const mimeString = imageDataUrl.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: mimeString });
+    this.previewImage = new File([blob], 'image.jpg', { type: mimeString });
+    this.btnLabel = 'Recapture image';
+  }
+  checkPermissions() {
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        width: 500,
+        height: 500
+      }
+    }).then((res) => {
+      console.log("response", res);
+      this.stream = res;
+      this.status = "Camera has access";
+      this.btnLabel = "Capture image";
+    }).catch(err => {
+      console.log(err);
+      if(err?.message === "Permission denied") {
+        this.status = "Permission denied. Try again by allowing the camera";
+      } else {
+        this.status = "You may not have camera device. Please try again.";
+      }
+    })
+  }
+
+  captureImage() {
+    this.trigger.next();
+    this.onSubmit();
+  }
+
+  proceed() {
+    console.log(this.previewImage);
+  }
+
   constructor(private http: HttpClient) {
   }
 
@@ -38,6 +94,13 @@ export class ScanComponent {
     const formData = new FormData();
     if (this.fileToUpload) {
       formData.append('invoice', this.fileToUpload, this.fileToUpload.name);
+      this.fileToUpload = null;
+    } else if (this.previewImage) {
+      formData.append('invoice', this.previewImage, this.previewImage.name);
+      this.previewImage = null;
+    } else {
+      console.log('No image to upload');
+      return;
     }
 
     const httpOptions: Object = {
