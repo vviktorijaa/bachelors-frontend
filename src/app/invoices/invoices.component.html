@@ -7,6 +7,7 @@
       <table class="invoiceTable table mt-5 text-center">
         <thead class="thead-dark">
         <tr>
+          <th scope="col">Vendor</th>
           <th scope="col">Invoice Number</th>
           <th scope="col">Date Scanned</th>
           <th scope="col">Due Date</th>
@@ -18,9 +19,10 @@
         <tr *ngFor="let invoice of invoices | paginate: {itemsPerPage: 5,
                                                                   currentPage: p,
                                                                   totalItems: invoices?.length}">
+          <td>{{invoice.vendorName}}</td>
           <td>{{invoice.invoiceNumber}}</td>
-          <td>{{invoice.scanTimestamp | date:'dd-MM-yyyy'}}</td>
-          <td>{{invoice.dueDate | date:'dd-MM-yyyy'}}</td>
+          <td>{{invoice.scanTimestamp | date:'dd.MM.yyyy'}}</td>
+          <td>{{invoice.dueDate | date:'dd.MM.yyyy'}}</td>
           <td>{{invoice.totalAmount | number:'1.2-2' }}</td>
           <td>
             <a class="btn btn-primary btn-sm">Download annotated invoice</a>

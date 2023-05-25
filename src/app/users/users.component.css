@@ -1,0 +1,12 @@
+.action-cell {
+  width: 30%;
+}
+
+.action-btn {
+  width: 45%;
+  margin-right: 5px;
+}
+
+.action-cell .d-flex {
+  justify-content: space-between;
+}
