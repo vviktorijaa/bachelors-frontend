@@ -31,7 +31,7 @@ export class ScanComponent {
   status: any = null;
   trigger: Subject<void> = new Subject();
   previewImage: File | null = null;
-  btnLabel: string = 'Capture image';
+  btnLabel: string = 'Scan Invoice';
 
   get $trigger(): Observable<void> {
     return this.trigger.asObservable();
@@ -49,7 +49,7 @@ export class ScanComponent {
     }
     const blob = new Blob([ab], { type: mimeString });
     this.previewImage = new File([blob], 'image.jpg', { type: mimeString });
-    this.btnLabel = 'Recapture image';
+    this.btnLabel = 'Re-scan Invoice';
   }
   checkPermissions() {
     navigator.mediaDevices.getUserMedia({
@@ -61,7 +61,7 @@ export class ScanComponent {
       console.log("response", res);
       this.stream = res;
       this.status = "Camera has access";
-      this.btnLabel = "Capture image";
+      this.btnLabel = "Scan Invoice";
     }).catch(err => {
       console.log(err);
       if(err?.message === "Permission denied") {
