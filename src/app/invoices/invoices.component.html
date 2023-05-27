@@ -2,46 +2,61 @@
 <div class="container">
   <div class="row">
     <div class="col-3"></div>
-    <div class="col">
-      <h3 class="mt-5">Invoices</h3>
-      <table class="invoiceTable table mt-5 text-center">
-        <thead class="thead-dark">
-        <tr>
-          <th scope="col">Vendor</th>
-          <th scope="col">Invoice Number</th>
-          <th scope="col">Date Scanned</th>
-          <th scope="col">Due Date</th>
-          <th scope="col">Total Amount</th>
-          <th scope="col" colspan="2">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let invoice of invoices | paginate: {itemsPerPage: 5,
+      <div class="col">
+        <div class="row mt-4">
+          <div class="col">
+            <nav class="navbar navbar-expand-lg">
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item" [class.active]="activeTab === 'invoices'">
+                    <a class="nav-link" (click)="setActiveTab('invoices')"><h3>Invoices</h3></a>
+                  </li>
+                  <li class="nav-item" [class.active]="activeTab === 'dueThisWeek'">
+                    <a class="nav-link" (click)="setActiveTab('dueThisWeek')"><h3>Invoices Due This Week</h3></a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        <table class="invoiceTable table mt-5 text-center">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Vendor</th>
+            <th scope="col">Invoice Number</th>
+            <th scope="col">Date Scanned</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col" colspan="2">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let invoice of invoices | paginate: {itemsPerPage: 5,
                                                                   currentPage: p,
                                                                   totalItems: invoices?.length}">
-          <td>{{invoice.vendorName}}</td>
-          <td>{{invoice.invoiceNumber}}</td>
-          <td>{{invoice.scanTimestamp | date:'dd.MM.yyyy'}}</td>
-          <td>{{invoice.dueDate | date:'dd.MM.yyyy'}}</td>
-          <td>{{invoice.totalAmount | number:'1.2-2' }}</td>
-          <td>
-            <a class="btn btn-primary btn-sm">Download annotated invoice</a>
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm">Delete</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-3"></div>
-    <div class="col text-center mt-3">
-      <pagination-controls (pageChange)="p = $event"
-                           previousLabel="Back"
-                           nextLabel="Next">
-      </pagination-controls>
+            <td>{{invoice.vendorName}}</td>
+            <td>{{invoice.invoiceNumber}}</td>
+            <td>{{invoice.scanTimestamp | date:'dd.MM.yyyy'}}</td>
+            <td>{{invoice.dueDate | date:'dd.MM.yyyy'}}</td>
+            <td>{{invoice.totalAmount | number:'1.2-2' }}</td>
+            <td>
+              <a class="btn btn-primary btn-sm">Download invoice</a>
+            </td>
+            <td>
+              <a class="btn btn-danger btn-sm">Delete</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col text-center mt-3">
+            <pagination-controls (pageChange)="p = $event"
+                                 previousLabel="Back"
+                                 nextLabel="Next">
+            </pagination-controls>
+          </div>
+        </div>
     </div>
   </div>
 </div>

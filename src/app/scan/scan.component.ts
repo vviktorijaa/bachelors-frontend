@@ -17,6 +17,8 @@ export class ScanComponent {
 
   canvasDataURL: string | null = null;
   fileToUpload: File | null = null;
+  invoiceStatus: string | null = "";
+  invoiceStatusVisibility: boolean = false;
 
   form: any = {
     invoice: null
@@ -91,14 +93,17 @@ export class ScanComponent {
   }
 
   onSubmit(): void {
+    this.invoiceStatusVisibility = true;
+    this.invoiceStatus = "Processing invoice..."
     const formData = new FormData();
     if (this.fileToUpload) {
       formData.append('invoice', this.fileToUpload, this.fileToUpload.name);
-      this.fileToUpload = null;
+      // this.fileToUpload = null;
     } else if (this.previewImage) {
       formData.append('invoice', this.previewImage, this.previewImage.name);
-      this.previewImage = null;
+      // this.previewImage = null;
     } else {
+      this.invoiceStatus = "Please, upload an image."
       console.log('No image to upload');
       return;
     }
@@ -113,8 +118,13 @@ export class ScanComponent {
         // @ts-ignore
         this.jsonResponse = JSON.parse(data);
         this.drawCanvasImage();
+        this.invoiceStatus = "Invoice saved successfully."
+        setTimeout(() => {
+          this.invoiceStatusVisibility = false;
+        }, 4000);
       },
       error: (err) => {
+        this.invoiceStatus = "Error processing invoice."
         console.log(err);
       }
     })

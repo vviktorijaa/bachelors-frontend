@@ -3,29 +3,20 @@
   <div class="row">
     <div class="col-3"></div>
     <div class="col">
-      <div class="row">
+      <div class="row mt-5">
         <div class="col">
-          <nav class="navbar navbar-expand-lg">
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item" [class.active]="activeTab === 'home'">
-                  <a class="nav-link" (click)="setActiveTab('home')"><h3>Home</h3></a>
-                </li>
-                <li class="nav-item" [class.active]="activeTab === 'dueThisWeek'">
-                  <a class="nav-link" (click)="setActiveTab('dueThisWeek')"><h3>Invoices Due This Week</h3></a>
-                </li>
-                <li class="nav-item" [class.active]="activeTab === 'statistics'">
-                  <a class="nav-link" (click)="setActiveTab('statistics')"><h3>Statistics</h3></a>
-                </li>
-              </ul>
+          <div class="row">
+            <p class="text-center">Row</p>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p>Row 2 col 1</p>
             </div>
-          </nav>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col" >
-
+            <div class="col">
+              <p>Row 2 col 2</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
