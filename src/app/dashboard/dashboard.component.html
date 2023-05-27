@@ -3,19 +3,21 @@
   <div class="row">
     <div class="col-3"></div>
     <div class="col">
-      <div class="row mt-5">
+      <div class="row mt-4">
         <div class="col">
           <div class="row">
-            <p class="text-center">Row</p>
+            <div class="col">
+              <h6>Invoices by vendor</h6>
+              <canvas id="pieChart">{{pieChart}}</canvas>
+            </div>
+            <div class="col">
+              <h6>Total amount by vendor</h6>
+              <canvas id="doughnutChart">{{doughnutChart}}</canvas>
+            </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <p>Row 2 col 1</p>
-            </div>
-
-            <div class="col">
-              <p>Row 2 col 2</p>
-            </div>
+          <div class="row mt-5 mb-1" style="height:300px">
+            <h6>Total amount per month</h6>
+            <canvas id="barChart">{{barChart}}</canvas>
           </div>
         </div>
       </div>
