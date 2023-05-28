@@ -3,7 +3,13 @@
     <div class="menu col-3">
       <div class="row">
         <div class="col mt-4">
-          <h2 class="bi bi-bell float-end text-white"></h2>
+          <div class="notification-container">
+            <a (click)="myDialog.show()" class="notificationBell"><h2 class="bi bi-bell float-end text-white"></h2></a>
+            <dialog #myDialog>
+              <p class="dialogText">{{message}}</p>
+              <a class="dialogCloseButton" (click)="myDialog.close()">X</a>
+            </dialog>
+          </div>
         </div>
       </div>
 

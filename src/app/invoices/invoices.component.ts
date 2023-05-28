@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
+import {Observable} from "rxjs";
 
 const INVOICES_API = "http://localhost:8081/invoices";
 const INVOICES_DUE_NEXT_WEEK_API = "http://localhost:8081/dueNextWeek";
@@ -38,14 +39,22 @@ export class InvoicesComponent {
         }
       })
     } else {
-      this.http.get(INVOICES_DUE_NEXT_WEEK_API).subscribe({
-        next: (data) => {
-          this.invoices = data;
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      })
+      this.getInvoicesWeek();
     }
+  }
+
+  getInvoicesWeek(): void {
+    this.getInvoicesDueThisWeek().subscribe({
+      next: (data) => {
+        this.invoices = data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  getInvoicesDueThisWeek(): Observable<any> {
+    return this.http.get(INVOICES_DUE_NEXT_WEEK_API);
   }
 }

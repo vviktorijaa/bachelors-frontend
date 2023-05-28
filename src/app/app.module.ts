@@ -34,7 +34,7 @@ import {WebcamModule} from "ngx-webcam";
     HttpClientModule,
     WebcamModule
   ],
-  providers: [],
+  providers: [InvoicesComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

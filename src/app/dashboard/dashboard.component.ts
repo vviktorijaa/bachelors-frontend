@@ -6,8 +6,7 @@ import {
   CategoryScale,
   BarController,
   PieController,
-  ArcElement,
-  DoughnutController
+  ArcElement
 } from "chart.js";
 import {HttpClient} from "@angular/common/http";
 
@@ -28,6 +27,7 @@ const LIME = "#5C946E"
 export class DashboardComponent {
 
   activeTab: string = 'home';
+  invoicesData: any;
 
   public barChart: any;
   public pieChart: any;
@@ -59,25 +59,25 @@ export class DashboardComponent {
         let totalAmountPerMonth = splitted[1];
         let month = splitted[2];
 
-        this.barChart.data.labels = ["Total Amount per month"];
+        this.barChart.data.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        let dataValues = new Array(12).fill(null);
+        let monthIndex = parseInt(month) - 1;
+        dataValues[monthIndex] = totalAmountPerMonth;
+
         this.barChart.data.datasets = [
           {
-            label: "Month",
-            data: [month],
-            backgroundColor: 'blue'
-          },
-          {
             label: "Total Amount",
-            data: [totalAmountPerMonth],
+            data: dataValues,
             backgroundColor: DARK_BLUE
           }
         ];
         this.barChart.update();
       },
       error: (err) => {
-        console.log(err)
+        console.log(err);
       }
-    })
+    });
 
     Chart.register(BarController);
     Chart.register(CategoryScale);
@@ -91,7 +91,35 @@ export class DashboardComponent {
         datasets: []
       },
       options: {
-        aspectRatio: 2.5
+        aspectRatio: 2.5,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Month"
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Total Amount"
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.dataset.data[context.dataIndex];
+                const numberInvoices = value !== null ? value : 'N/A';
+                return `Number of Invoices: ${numberInvoices}`;
+              }
+            }
+          }
+        },
       }
     });
   }
@@ -103,8 +131,8 @@ export class DashboardComponent {
         const labels = [];
         const dataValues = [];
         const backgroundColors = [];
-        for (let i = 0; i < this.invoicesGroupedByVendor.length; i++) {
-          let splitted = this.invoicesGroupedByVendor[i].split(",");
+        for (const element of this.invoicesGroupedByVendor) {
+          let splitted = element.split(",");
           let vendorEmail = splitted[0];
           let numberInvoicesPerVendor = splitted[1];
 
@@ -115,7 +143,6 @@ export class DashboardComponent {
           backgroundColors.push(DARK_BLUE);
           backgroundColors.push(GREY);
         }
-        ;
         this.pieChart.data.labels = labels;
         this.pieChart.data.datasets[0].data = dataValues;
         this.pieChart.data.datasets[0].backgroundColor = backgroundColors;
@@ -154,14 +181,15 @@ export class DashboardComponent {
         const dataValues = [];
         const backgroundColors = [];
 
-        for (let i = 0; i < this.invoicesGroupedByVendorTotalAmount.length; i++) {
-          let splitted = this.invoicesGroupedByVendorTotalAmount[i].split(",");
+        for (const element of this.invoicesGroupedByVendorTotalAmount) {
+          let splitted = element.split(",");
           let vendorEmail = splitted[0];
           let numberInvoicesPerVendor = splitted[1];
           let totalAmountPerVendor = splitted[2];
 
           labels.push(vendorEmail);
-          dataValues.push(numberInvoicesPerVendor);
+          dataValues.push(totalAmountPerVendor);
+
           backgroundColors.push(DARK_BLUE);
           backgroundColors.push(LIGHT_BLUE);
           backgroundColors.push(GREY);
@@ -170,12 +198,15 @@ export class DashboardComponent {
         this.doughnutChart.data.labels = labels;
         this.doughnutChart.data.datasets = [
           {
-              label: 'Doughnut Chart',
+            label: 'Doughnut Chart Dataset',
             data: dataValues,
             backgroundColor: backgroundColors,
             hoverOffset: 4
           }
         ];
+        // console.log("Labels: " + this.doughnutChart.data.labels);
+        // console.log("Data: " + this.doughnutChart.data);
+        // console.log("Datasets: " + this.doughnutChart.data.datasets[0].data);
         this.doughnutChart.update();
       },
       error: (err) => {
@@ -188,7 +219,7 @@ export class DashboardComponent {
       data: {
         labels: [],
         datasets: [{
-          label: 'My First Dataset',
+          label: 'Doughnut Chart Dataset',
           data: [],
           backgroundColor: [],
           hoverOffset: 4
@@ -209,5 +240,36 @@ export class DashboardComponent {
         }
       }
     });
+  }
+
+  switchMonth(month: any): string {
+    switch (month) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return '';
+    }
   }
 }
