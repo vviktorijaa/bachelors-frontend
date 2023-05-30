@@ -6,7 +6,8 @@ import {
   CategoryScale,
   BarController,
   PieController,
-  ArcElement
+  ArcElement,
+  Tooltip
 } from "chart.js";
 import {HttpClient} from "@angular/common/http";
 
@@ -51,11 +52,12 @@ export class DashboardComponent {
   }
 
   getBarChart() {
+    let numberInvoices = 0;
     this.http.get(INVOICES_TOTAL_AMOUNT_API).subscribe({
       next: (data) => {
         this.invoicesTotalAmount = data;
         let splitted = this.invoicesTotalAmount.toString().split(",");
-        let numberInvoices = splitted[0];
+        numberInvoices = splitted[0];
         let totalAmountPerMonth = splitted[1];
         let month = splitted[2];
 
@@ -83,6 +85,7 @@ export class DashboardComponent {
     Chart.register(CategoryScale);
     Chart.register(LinearScale);
     Chart.register(BarElement);
+    Chart.register(Tooltip)
 
     this.barChart = new Chart("barChart", {
       type: 'bar',
@@ -114,8 +117,8 @@ export class DashboardComponent {
             callbacks: {
               label: (context) => {
                 const value = context.dataset.data[context.dataIndex];
-                const numberInvoices = value !== null ? value : 'N/A';
-                return `Number of Invoices: ${numberInvoices}`;
+                const numberOfInvoices = value !== null ? numberInvoices : 'N/A';
+                return `Number of Invoices: ${numberOfInvoices}`;
               }
             }
           }
@@ -154,21 +157,31 @@ export class DashboardComponent {
     })
 
     Chart.register(PieController);
-    Chart.register(ArcElement)
+    Chart.register(ArcElement);
+    Chart.register(Tooltip);
 
     this.pieChart = new Chart("pieChart", {
       type: 'pie',
       data: {
         labels: [],
         datasets: [{
-          label: 'Pie',
           data: [],
           backgroundColor: [],
           hoverOffset: 4
         }]
       },
       options: {
-        aspectRatio: 2.5
+        aspectRatio: 2.5,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.formattedValue || '';
+                return `${value}`;
+              }
+            }
+          }
+        }
       }
     });
   }
@@ -204,15 +217,14 @@ export class DashboardComponent {
             hoverOffset: 4
           }
         ];
-        // console.log("Labels: " + this.doughnutChart.data.labels);
-        // console.log("Data: " + this.doughnutChart.data);
-        // console.log("Datasets: " + this.doughnutChart.data.datasets[0].data);
         this.doughnutChart.update();
       },
       error: (err) => {
         console.log(err)
       }
     })
+
+    Chart.register(Tooltip);
 
     this.doughnutChart = new Chart("doughnutChart", {
       type: 'doughnut',
@@ -231,9 +243,8 @@ export class DashboardComponent {
           tooltip: {
             callbacks: {
               label: (context) => {
-                const label = context.label || '';
                 const value = context.formattedValue || '';
-                return `${label}: ${value}`;
+                return `${value}`;
               }
             }
           }
