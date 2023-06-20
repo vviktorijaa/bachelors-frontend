@@ -8,12 +8,14 @@
         <h3 style="color: #152a5f">Scan an invoice or upload an existing invoice</h3>
       </div>
 
-      <div class="row mt-3">
+      <div class="row mt-3 mb-5">
         <div class="col">
 
           <div class="row mt-4">
             <div class="col-4">
-              <button style="background-color: #122452; color: white" class="btn" (click)="checkPermissions()">Scan Invoice</button>
+              <button style="background-color: #122452; color: white" class="btn" (click)="checkPermissions()">Scan
+                Invoice
+              </button>
             </div>
 
             <div class="col-8">
@@ -24,10 +26,12 @@
                            type="file"
                            id="formInvoice"
                            name="invoice"
-                           [(ngModel)]="form.invoice"
-                           #invoice="ngModel"
+                           #fileInput
                            (change)="onFileSelected($event)">
-                    <button style="background-color: #122452; color: white; position: absolute;right: 0; top: 0; height: 100%;" type="submit" class="btn" [disabled]="!f.form.valid">Upload</button>
+                    <button
+                      style="background-color: #122452; color: white; position: absolute; right: 0; top: 0; height: 100%;"
+                      type="submit" class="btn" [disabled]="!f.form.valid">Upload
+                    </button>
                   </div>
 
                   <div *ngIf="invoiceStatusVisibility" class="row mt-1">
@@ -42,22 +46,23 @@
         </div>
       </div>
 
-      <div class="row text-center mt-2">
-        <div class="col image-container">
-          <div *ngIf="this.status == undefined; then thenHeader else elseHeader"></div>
-          <ng-template #thenHeader>
-            <canvas #canvasElement class="mt-5" style="height:310px; width:250px"></canvas>
-            <a *ngIf="this.jsonResponse.image != undefined" [href]="canvasDataURL" download="image.png">Download Image<i class="bi bi-download" style="margin-left: 5px"></i></a>
-          </ng-template>
-          <ng-template #elseHeader>
-            <div *ngIf="stream" style="position: relative;">
-              <div style="display: flex; flex-direction: column; align-items: center;">
-                <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1"></webcam>
-                <button style="background-color: #122452; color: white; margin-top: 3px; margin-bottom:5px" class="btn" (click)="captureImage()">{{btnLabel}}</button>
-              </div>
+
+      <div class="col image-container">
+        <div *ngIf="showCamera === false; then thenHeader else elseHeader"></div>
+        <ng-template #thenHeader>
+          <canvas #canvasElement class="mt-3" style="height: 240px; width: 200px;"></canvas>
+          <a *ngIf="this.jsonResponse.image != undefined" [href]="canvasDataURL" download="image.png">Download Image<i
+            class="bi bi-download" style="margin-left: 5px"></i></a>
+        </ng-template>
+        <ng-template #elseHeader>
+          <div *ngIf="stream" style="position: relative;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1"></webcam>
+              <button style="background-color: #122452; color: white; margin-top: 3px; margin-bottom: 5px;" class="btn"
+                      (click)="captureImage()">{{btnLabel}}</button>
             </div>
-          </ng-template>
-        </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

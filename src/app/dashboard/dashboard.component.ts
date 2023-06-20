@@ -7,7 +7,8 @@ import {
   BarController,
   PieController,
   ArcElement,
-  Tooltip
+  Tooltip,
+  DoughnutController
 } from "chart.js";
 import {HttpClient} from "@angular/common/http";
 
@@ -19,6 +20,8 @@ const DARK_BLUE = "#152A5F";
 const LIGHT_BLUE = "#6c83a1"
 const GREY = "#5f6165"
 const LIME = "#5C946E"
+const GREEN = "#385e46"
+const AQUA = "#1f555e"
 
 @Component({
   selector: 'app-dashboard',
@@ -143,8 +146,10 @@ export class DashboardComponent {
           dataValues.push(numberInvoicesPerVendor);
           backgroundColors.push(LIME);
           backgroundColors.push(LIGHT_BLUE);
-          backgroundColors.push(DARK_BLUE);
           backgroundColors.push(GREY);
+          backgroundColors.push(DARK_BLUE);
+          backgroundColors.push(AQUA);
+          backgroundColors.push(GREEN);
         }
         this.pieChart.data.labels = labels;
         this.pieChart.data.datasets[0].data = dataValues;
@@ -224,6 +229,7 @@ export class DashboardComponent {
       }
     })
 
+    Chart.register(DoughnutController);
     Chart.register(Tooltip);
 
     this.doughnutChart = new Chart("doughnutChart", {

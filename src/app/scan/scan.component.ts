@@ -14,11 +14,13 @@ export class ScanComponent {
 
   @ViewChild('canvasElement', {static: false}) canvas: any;
   @ViewChild('processingImage', {static: true}) processingImage: any;
+  @ViewChild('fileInput', { static: false }) fileInput: any;
 
   canvasDataURL: string | null = null;
   fileToUpload: File | null = null;
   invoiceStatus: string | null = "";
   invoiceStatusVisibility: boolean = false;
+  showCamera: boolean = true;
 
   form: any = {
     invoice: null
@@ -64,6 +66,7 @@ export class ScanComponent {
       this.stream = res;
       this.status = "Camera has access";
       this.btnLabel = "Scan Invoice";
+      this.showCamera = true;
     }).catch(err => {
       console.log(err);
       if(err?.message === "Permission denied") {
@@ -77,6 +80,7 @@ export class ScanComponent {
   captureImage() {
     this.trigger.next();
     this.onSubmit();
+    this.showCamera = false;
   }
 
   proceed() {
@@ -89,6 +93,7 @@ export class ScanComponent {
   onFileSelected(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
       this.fileToUpload = event.target.files[0];
+      this.form.invoice = event.target.files[0];
     }
   }
 
@@ -96,15 +101,19 @@ export class ScanComponent {
     this.invoiceStatusVisibility = true;
     this.invoiceStatus = "Processing invoice..."
     const formData = new FormData();
-    if (this.fileToUpload) {
-      formData.append('invoice', this.fileToUpload, this.fileToUpload.name);
-      // this.fileToUpload = null;
+    const fileInput = this.fileInput.nativeElement;
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      formData.append('invoice', file, file.name);
+      this.showCamera = false;
     } else if (this.previewImage) {
       formData.append('invoice', this.previewImage, this.previewImage.name);
-      // this.previewImage = null;
+      this.fileToUpload = null;
+      this.previewImage = null;
+      this.showCamera = false;
     } else {
       this.invoiceStatus = "Please, upload an image."
-      console.log('No image to upload');
+      this.showCamera = false;
       return;
     }
 
@@ -119,6 +128,7 @@ export class ScanComponent {
         this.jsonResponse = JSON.parse(data);
         this.drawCanvasImage();
         this.invoiceStatus = "Invoice saved successfully."
+        fileInput.value = '';
         setTimeout(() => {
           this.invoiceStatusVisibility = false;
         }, 4000);
@@ -126,6 +136,9 @@ export class ScanComponent {
       error: (err) => {
         this.invoiceStatus = "Error processing invoice."
         console.log(err);
+        setTimeout(() => {
+          this.invoiceStatusVisibility = false;
+        }, 4000);
       }
     })
   }

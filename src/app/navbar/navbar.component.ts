@@ -27,7 +27,7 @@ export class NavbarComponent {
   async checkInvoicesWeek(): Promise<void> {
     const invoicesExist = await this.getInvoicesWeek();
     if (invoicesExist) {
-      this.message = "You have invoices due this week. Please, check the 'Invoices" +
+      this.message = "You have invoices due this week. Please, check the 'Invoices " +
         "Due This Week' section."
     } else {
       this.message = "No invoices are due this week."
