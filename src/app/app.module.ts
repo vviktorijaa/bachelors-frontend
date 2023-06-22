@@ -14,6 +14,7 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {UsersComponent} from './users/users.component';
 import {WebcamModule} from "ngx-webcam";
+import {LogoutComponent} from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {WebcamModule} from "ngx-webcam";
     ScanComponent,
     LoginComponent,
     RegisterComponent,
-    UsersComponent
+    UsersComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,8 @@ import {WebcamModule} from "ngx-webcam";
     HttpClientModule,
     WebcamModule
   ],
+  // TODO: uncomment this line below when authentication is done
+  // providers: [InvoicesComponent, {provide: HTTP_INTERCEPTORS, useClass: BasicAuthHttpInterceptor, multi: true},
   providers: [InvoicesComponent],
   bootstrap: [AppComponent]
 })

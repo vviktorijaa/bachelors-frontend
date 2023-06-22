@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {map} from "rxjs";
+import {catchError, map, throwError} from "rxjs";
 
 const AUTH_API = 'http://localhost:8081/login';
 
@@ -18,6 +18,7 @@ export class AuthService {
   }
 
   authenticate(username: string, password: string) {
+    console.log('Authenticating:', username, password);
     const httpOptions: Object = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -26,17 +27,20 @@ export class AuthService {
       responseType: 'text'
     };
 
-    return this.http.post(AUTH_API, {}, httpOptions).pipe(
-      map(
-        (data) => {
+    let credentials = {username: username, password: password};
+
+    return this.http.post(AUTH_API, credentials, httpOptions).pipe(
+      map(() => {
           let authString = 'Basic ' + btoa(username + ':' + password);
           sessionStorage.setItem('username', username);
           sessionStorage.setItem('basicAuth', authString);
-          sessionStorage.setItem('userId', JSON.parse(data.toString()).id);
 
           this.isLoggedIn = true;
-        }
-      ))
+        }),
+      catchError((error) => {
+        console.error('Authentication error:', error);
+        return throwError(error);
+      }))
   }
 
   isUserLoggedIn() {

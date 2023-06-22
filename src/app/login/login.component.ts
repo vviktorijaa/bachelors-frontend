@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AuthService} from "../authentication/auth.service";
 
 const HTTP_UNAUTHORIZED: number = 401;
+const HTTP_FORBIDDEN: number = 403;
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    console.log('Form submitted:', this.form);
     sessionStorage.setItem('username', this.form.username);
     sessionStorage.setItem('password', this.form.password);
 
@@ -35,7 +37,11 @@ export class LoginComponent {
       },
       (err) => {
         this.invalidLogin = true;
+        this.wrongCredentials = true;
         if (err.status == HTTP_UNAUTHORIZED) {
+          this.wrongCredentials = true;
+        }
+        if (err.status == HTTP_FORBIDDEN) {
           this.wrongCredentials = true;
         }
       }

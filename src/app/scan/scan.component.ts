@@ -21,6 +21,7 @@ export class ScanComponent {
   invoiceStatus: string | null = "";
   invoiceStatusVisibility: boolean = false;
   showCamera: boolean = true;
+  showDownload: boolean = false;
 
   form: any = {
     invoice: null
@@ -42,7 +43,6 @@ export class ScanComponent {
   }
 
   snapshot(event: WebcamImage) {
-    console.log(event);
     const imageDataUrl = event.imageAsDataUrl;
     const byteString = atob(imageDataUrl.split(',')[1]);
     const mimeString = imageDataUrl.split(',')[0].split(':')[1].split(';')[0];
@@ -62,7 +62,6 @@ export class ScanComponent {
         height: 500
       }
     }).then((res) => {
-      console.log("response", res);
       this.stream = res;
       this.status = "Camera has access";
       this.btnLabel = "Scan Invoice";
@@ -78,6 +77,7 @@ export class ScanComponent {
   }
 
   captureImage() {
+    this.showDownload = false;
     this.trigger.next();
     this.onSubmit();
     this.showCamera = false;
@@ -127,6 +127,7 @@ export class ScanComponent {
         // @ts-ignore
         this.jsonResponse = JSON.parse(data);
         this.drawCanvasImage();
+        this.showDownload = true;
         this.invoiceStatus = "Invoice saved successfully."
         fileInput.value = '';
         setTimeout(() => {
@@ -135,6 +136,7 @@ export class ScanComponent {
       },
       error: (err) => {
         this.invoiceStatus = "Error processing invoice."
+        this.showDownload = false;
         console.log(err);
         setTimeout(() => {
           this.invoiceStatusVisibility = false;

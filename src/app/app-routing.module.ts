@@ -6,15 +6,16 @@ import {ScanComponent} from "./scan/scan.component";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
 import {UsersComponent} from "./users/users.component";
+import {AuthGuard} from "./authentication/auth.guard";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/dashboard', title: 'Invoices', pathMatch: 'full'},
-  {path: 'dashboard', component: DashboardComponent, title: 'Dashboard', pathMatch: 'full'},
-  {path: 'invoices', component: InvoicesComponent, title: 'Invoices', pathMatch: 'full'},
-  {path: 'scan', component: ScanComponent, title: 'Scan', pathMatch: 'full'},
+  {path: '', redirectTo: '/login', title: 'Dashboard', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, title: 'Login', pathMatch: 'full'},
-  {path: 'register', component: RegisterComponent, title: 'Register', pathMatch: 'full'},
-  {path: 'users', component: UsersComponent, title: 'Users', pathMatch: 'full'}
+  {path: 'dashboard', component: DashboardComponent, title: 'Dashboard', pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'invoices', component: InvoicesComponent, title: 'Invoices', pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'scan', component: ScanComponent, title: 'Scan', pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'register', component: RegisterComponent, title: 'Register', pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'users', component: UsersComponent, title: 'Users', pathMatch: 'full', canActivate: [AuthGuard]}
 ];
 
 @NgModule({

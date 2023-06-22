@@ -20,7 +20,7 @@
                  id="email"
                  aria-describedby="emailHelp"
                  placeholder="Email"
-                 name="email"
+                 name="username"
                  [(ngModel)]="form.username"
                  required
                  minlength="2"
@@ -72,11 +72,11 @@
           </div>
           <div class="col">
             <div class="d-flex justify-content-end">
-              <small class="ml-auto"><a href="">Forgot password?</a></small>
+              <small class="ml-auto"><a href="/login">Forgot password?</a></small>
             </div>
           </div>
         </div>
-        <button routerLink="/dashboard"  type="button" class="btn mt-4" style="background-color: #122452; color: white; width: 100%">Log In</button>
+        <button (click)="onSubmit()" type="button" class="btn mt-4" style="background-color: #122452; color: white; width: 100%">Log In</button>
         <div class="text-center mt-4">
           <small>Don't have an account? <a href="/register">Sign in</a></small>
         </div>
