@@ -11,6 +11,7 @@ export class NavbarComponent {
 
   message: any;
   invoicesData: any;
+  username: any;
 
   constructor(private router: Router,
               private invoices: InvoicesComponent) {
@@ -21,6 +22,7 @@ export class NavbarComponent {
   }
 
   ngOnInit(): void {
+    this.username = sessionStorage.getItem('username');
     this.checkInvoicesWeek();
   }
 

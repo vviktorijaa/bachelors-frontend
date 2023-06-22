@@ -18,7 +18,6 @@ export class AuthService {
   }
 
   authenticate(username: string, password: string) {
-    console.log('Authenticating:', username, password);
     const httpOptions: Object = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -40,7 +39,8 @@ export class AuthService {
       catchError((error) => {
         console.error('Authentication error:', error);
         return throwError(error);
-      }))
+      })
+    )
   }
 
   isUserLoggedIn() {

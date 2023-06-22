@@ -9,12 +9,13 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {ScanComponent} from './scan/scan.component';
 import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {UsersComponent} from './users/users.component';
 import {WebcamModule} from "ngx-webcam";
 import {LogoutComponent} from './logout/logout.component';
+import {BasicAuthHttpInterceptor} from "./authentication/basic.auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -36,9 +37,7 @@ import {LogoutComponent} from './logout/logout.component';
     HttpClientModule,
     WebcamModule
   ],
-  // TODO: uncomment this line below when authentication is done
-  // providers: [InvoicesComponent, {provide: HTTP_INTERCEPTORS, useClass: BasicAuthHttpInterceptor, multi: true},
-  providers: [InvoicesComponent],
+  providers: [InvoicesComponent, {provide: HTTP_INTERCEPTORS, useClass: BasicAuthHttpInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
