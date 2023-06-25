@@ -54,29 +54,37 @@ export class DashboardComponent {
     this.getDoughnutChart();
   }
 
+  getMonthName(month: number): string {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return monthNames[month];
+  }
+
   getBarChart() {
     let numberInvoices = 0;
     this.http.get(INVOICES_TOTAL_AMOUNT_API).subscribe({
       next: (data) => {
         this.invoicesTotalAmount = data;
-        let splitted = this.invoicesTotalAmount.toString().split(",");
-        numberInvoices = splitted[0];
-        let totalAmountPerMonth = splitted[1];
-        let month = splitted[2];
-
         this.barChart.data.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let datasets = [];
+        for (const element of this.invoicesTotalAmount) {
+          let splitted = element.toString().split(",");
+          let month = splitted[0];
+          numberInvoices = splitted[1];
+          let totalAmountPerMonth = splitted[2];
 
-        let dataValues = new Array(12).fill(null);
-        let monthIndex = parseInt(month) - 1;
-        dataValues[monthIndex] = totalAmountPerMonth;
+          let dataValues = new Array(12).fill(null);
+          let monthIndex = parseInt(month) - 1;
+          dataValues[monthIndex] = totalAmountPerMonth;
 
-        this.barChart.data.datasets = [
-          {
-            label: "Total Amount",
+          datasets.push({
+            label: this.getMonthName(month),
             data: dataValues,
-            backgroundColor: DARK_BLUE
-          }
-        ];
+            backgroundColor: DARK_BLUE,
+            barPercentage: 1,
+            categoryPercentage: 1
+          });
+        }
+        this.barChart.data.datasets = datasets;
         this.barChart.update();
       },
       error: (err) => {
