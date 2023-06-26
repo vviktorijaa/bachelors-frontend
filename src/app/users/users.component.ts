@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 const USERS_API = 'http://localhost:8081/users';
 
@@ -15,7 +14,7 @@ export class UsersComponent implements OnInit {
   message: any;
   showMessage: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.getUsers();
@@ -28,23 +27,6 @@ export class UsersComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-      }
-    });
-  }
-
-  deleteUserById(id: number): void {
-    this.http.delete(USERS_API + '/' + id).subscribe({
-      next: (data) => {
-        this.message = 'Delete successful';
-        this.showMessage = true;
-        setTimeout(() => {
-          this.showMessage = false;
-        }, 4000);
-        this.getUsers();
-      },
-      error: (error) => {
-        this.message = 'There was an error: ' + error;
-        this.showMessage = true;
       }
     });
   }

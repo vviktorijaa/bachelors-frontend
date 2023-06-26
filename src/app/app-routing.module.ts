@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, title: 'Dashboard', pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'invoices', component: InvoicesComponent, title: 'Invoices', pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'scan', component: ScanComponent, title: 'Scan', pathMatch: 'full', canActivate: [AuthGuard]},
-  {path: 'register', component: RegisterComponent, title: 'Register', pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'register', component: RegisterComponent, title: 'Register', pathMatch: 'full'},
   {path: 'users', component: UsersComponent, title: 'Users', pathMatch: 'full', canActivate: [AuthGuard]}
 ];
 

@@ -66,6 +66,7 @@ export class DashboardComponent {
         this.invoicesTotalAmount = data;
         this.barChart.data.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let datasets = [];
+        let numberInvoicesArray = [];
         for (const element of this.invoicesTotalAmount) {
           let splitted = element.toString().split(",");
           let month = splitted[0];
@@ -83,6 +84,8 @@ export class DashboardComponent {
             barPercentage: 1,
             categoryPercentage: 1
           });
+
+          numberInvoicesArray.push(numberInvoices);
         }
         this.barChart.data.datasets = datasets;
         this.barChart.update();
@@ -96,7 +99,7 @@ export class DashboardComponent {
     Chart.register(CategoryScale);
     Chart.register(LinearScale);
     Chart.register(BarElement);
-    Chart.register(Tooltip)
+    Chart.register(Tooltip);
 
     this.barChart = new Chart("barChart", {
       type: 'bar',
@@ -126,10 +129,22 @@ export class DashboardComponent {
           },
           tooltip: {
             callbacks: {
-              label: (context) => {
-                const value = context.dataset.data[context.dataIndex];
-                const numberOfInvoices = value !== null ? numberInvoices : 'N/A';
-                return `Number of Invoices: ${numberOfInvoices}`;
+              // label: (context) => {
+              //   const value = context.dataset.data[context.dataIndex];
+              //   const numberOfInvoices = value !== null ? numberInvoicesArray[context.dataIndex] : 'N/A';
+              //   return `Number of Invoices: ${numberOfInvoices}`;
+              // }
+              label: function(context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  const totalAmount = context.parsed.y;
+                  label = `Total Amount: ${totalAmount}`;
+                }
+                return label;
               }
             }
           }

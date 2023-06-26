@@ -4,21 +4,50 @@
       <img src="/assets/background.png" alt="photo" class="img-fluid m-auto">
     </div>
     <div class="col-lg-6 d-flex align-items-center justify-content-center">
-      <form class="mb-4 custom-form">
+      <form class="mb-4 custom-form"
+            name="form"
+            (ngSubmit)="f.form.valid && onSubmit()"
+            #f="ngForm"
+            novalidate>
         <div class="text-center mb-5 mt-4">
           <h3 style="color: #122452">Sign In to Smart Invoicing</h3>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+          <input type="text"
+                 class="form-control"
+                 id="email"
+                 aria-describedby="emailHelp"
+                 placeholder="Email"
+                 name="username"
+                 [(ngModel)]="form.username"
+                 required
+                 minlength="2"
+                 #username="ngModel">
         </div>
         <div class="form-group mt-4">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password">
+          <input type="password"
+                 class="form-control"
+                 id="password"
+                 placeholder="Password"
+                 name="password"
+                 [(ngModel)]="form.password"
+                 required
+                 minlength="3"
+                 #password="ngModel">
         </div>
         <div class="form-group mt-4">
-          <label for="repeatPassword">Repeat Password</label>
-          <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat Password">
+          <label for="password">Password</label>
+          <input type="password"
+                 class="form-control"
+                 id="repeatPassword"
+                 placeholder="Repeat Password"
+                 name="repeatPassword"
+                 [(ngModel)]="form.repeatPassword"
+                 required
+                 minlength="3"
+                 #repeatPassword="ngModel">
         </div>
         <div class="row mt-3">
           <div class="col">
@@ -28,7 +57,15 @@
             </div>
           </div>
         </div>
-        <button routerLink="/dashboard" type="button" class="btn mt-4" style="background-color: #122452; color: white; width: 100%">Sign In</button>
+        <div class="alert alert-danger mt-2"
+             role="alert"
+             *ngIf="!passwordsMatch">
+          Passwords do not match.
+        </div>
+        <div class="alert alert-danger" *ngIf="uniqueUsername">
+          User with that username already exists.
+        </div>
+        <button (click)="onSubmit()" type="button" class="btn mt-4" style="background-color: #122452; color: white; width: 100%">Sign In</button>
         <div class="text-center mt-4">
           <small>Already have an account? <a href="/login">Log In</a></small>
         </div>
